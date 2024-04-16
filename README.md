@@ -20,15 +20,15 @@
 <p>1. Configure Database</p>
 
 ```
-CREATE SCHEMA `employee_db` ;
+CREATE SCHEMA `employee_db`;
 ```
 
 <p>2. Database Credential Setup</p>
 <p>Update mysql database credential of each micro service in <b>application.propertires</b> file</p>
   
 ```
-spring.datasource.username: YOUR_USER_NAME
-spring.datasource.password: YOUR_USER_NAME
+spring.datasource.username = YOUR_USER_NAME
+spring.datasource.password = YOUR_PASSWORD
 ```
 
 <h2>Api Specification:</h2>
