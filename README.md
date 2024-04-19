@@ -33,9 +33,9 @@ spring.datasource.password = YOUR_PASSWORD
 
 <h2>Api Specification:</h2>
 
-All API endpoints are mapped in postman collection. Collection will be found from here... <a href='#' target='_blank'>SpringbootCRUDSecurityRestApiCollection</a>
+All API endpoints are mapped in postman collection. Collection will be found from here... <a href='https://github.com/farhadssj/springboot-crud-security/blob/be1139a3266f2376bcaa557d7a26f4eb3752120c/uploads/SpringbootCRUDSecurityRestApiPostmanCollection.json' target='_blank'>SpringbootCRUDSecurityRestApiCollection</a>
 
 
 <h2>Web FrontEnd:</h2>
 
-Web front end using angular framework can be found from here... <a href='#' target='_blank'>AngularWebFrontEnd</a>
+Web front end using angular framework can be found from here... <a href='https://github.com/farhadssj/angular-restapi-authentication' target='_blank'>AngularWebFrontEnd</a>
