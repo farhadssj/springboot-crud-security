@@ -35,6 +35,12 @@ public class EmployeeController {
         return RestApiResponse.buildResponseWithDetails(HttpStatus.OK.value(), "Successfully fetch All Employees", employeeInfoList);
     }
 
+    @GetMapping(path = Constant.GET_SPECIFIC_EMPLOYEE_INFO_PATH + "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Object> getSpecificEmployeeInfo(@PathVariable @Valid Long id) throws EmployeeInfoException {
+        EmployeeInfo employeeInfo = employeeService.getEmployeeInfo(id);
+        return RestApiResponse.buildResponseWithDetails(HttpStatus.OK.value(), "Successfully fetch Employee", employeeInfo);
+    }
+
     @DeleteMapping(path = Constant.DELETE_EMPLOYEE_INFO_PATH + "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Object> deleteEmployeeInfo(@PathVariable @Valid Long id) throws EmployeeInfoException {
         employeeService.deleteEmployeeInfo(id);

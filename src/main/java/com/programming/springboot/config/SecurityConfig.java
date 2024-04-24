@@ -44,6 +44,7 @@ public class SecurityConfig {
                                 .requestMatchers(Constant.PATCH_EMPLOYEE_INFO_PATH + "/**").hasAuthority("ADMIN")
                                 .requestMatchers(Constant.ADD_EMPLOYEE_INFO_PATH).hasAnyAuthority("ADMIN", "USER")
                                 .requestMatchers(Constant.UPDATE_EMPLOYEE_INFO_PATH + "/**").hasAnyAuthority( "ADMIN", "USER")
+                                .requestMatchers(Constant.GET_SPECIFIC_EMPLOYEE_INFO_PATH + "/**").hasAnyAuthority( "ADMIN", "USER")
                                 .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)
