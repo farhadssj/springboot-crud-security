@@ -4,9 +4,13 @@ import com.programming.springboot.exception.EmployeeInfoException;
 import com.programming.springboot.model.EmployeeInfo;
 import com.programming.springboot.repositiry.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -26,8 +30,10 @@ public class EmployeeService {
         employeeRepository.save(employeeInfo);
     }
 
-    public List<EmployeeInfo> getAllEmployeeInfo() {
-        return employeeRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+    public Page<EmployeeInfo> getAllEmployeeInfo(int page, int size) {
+        Sort sorting = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(page, size, sorting);
+        return employeeRepository.findAll(pageable);
     }
 
     public EmployeeInfo getEmployeeInfo(Long id) throws EmployeeInfoException {

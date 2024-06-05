@@ -8,6 +8,9 @@ import com.programming.springboot.service.EmployeeService;
 import com.programming.springboot.util.Constant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +33,11 @@ public class EmployeeController {
     }
 
     @GetMapping(path = Constant.GET_ALL_EMPLOYEE_INFO_PATH, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Object> getAllEmployeeInfo() {
-        List<EmployeeInfo> employeeInfoList = employeeService.getAllEmployeeInfo();
+    public ResponseEntity<Object> getAllEmployeeInfo(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<EmployeeInfo> employeeInfoList = employeeService.getAllEmployeeInfo(page, size);
         return RestApiResponse.buildResponseWithDetails(HttpStatus.OK.value(), "Successfully fetch All Employees", employeeInfoList);
     }
 
