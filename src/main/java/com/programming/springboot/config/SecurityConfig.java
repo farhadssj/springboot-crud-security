@@ -3,6 +3,9 @@ package com.programming.springboot.config;
 import com.programming.springboot.filter.JwtAuthenticationFilter;
 import com.programming.springboot.service.UserService;
 import com.programming.springboot.util.Constant;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +43,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         req->req.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers(Constant.GET_ALL_EMPLOYEE_INFO_PATH).permitAll()
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                                 .requestMatchers(Constant.DELETE_EMPLOYEE_INFO_PATH + "/**").hasAuthority("ADMIN")
                                 .requestMatchers(Constant.PATCH_EMPLOYEE_INFO_PATH + "/**").hasAuthority("ADMIN")
                                 .requestMatchers(Constant.ADD_EMPLOYEE_INFO_PATH).hasAnyAuthority("ADMIN", "USER")
@@ -74,5 +78,18 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                .components(new io.swagger.v3.oas.models.Components()
+                        .addSecuritySchemes("bearerAuth", new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")
+                        )
+                );
     }
 }
