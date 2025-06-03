@@ -19,6 +19,20 @@ jobs:
     name: Build & Test
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: mysql_password
+          MYSQL_DATABASE: employee_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17
@@ -32,6 +46,19 @@ jobs:
         path: ~/.m2
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-maven
+        
+    - name: Wait for MySQL to be ready
+        run: |
+          echo "Waiting for MySQL..."
+          until mysqladmin ping -h "127.0.0.1" -uroot -pmysql_pass --silent; do
+            sleep 2
+          done
+
+      - name: Verify MySQL connection (optional)
+        run: |
+          sudo apt-get update && sudo apt-get install -y mysql-client
+          mysql -h 127.0.0.1 -P 3306 -u root -p mysql_password -e "SHOW DATABASES;"
+    
     - name: Build with Maven
       run: mvn clean install
       
