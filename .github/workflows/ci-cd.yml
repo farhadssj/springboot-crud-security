@@ -48,16 +48,16 @@ jobs:
         restore-keys: ${{ runner.os }}-maven
         
     - name: Wait for MySQL to be ready
-        run: |
-          echo "Waiting for MySQL..."
-          until mysqladmin ping -h "127.0.0.1" -uroot -pmysql_pass --silent; do
+      run: |
+        echo "Waiting for MySQL..."
+        until mysqladmin ping -h "127.0.0.1" -u root -p mysql_password --silent; do
             sleep 2
           done
 
-      - name: Verify MySQL connection (optional)
-        run: |
-          sudo apt-get update && sudo apt-get install -y mysql-client
-          mysql -h 127.0.0.1 -P 3306 -u root -p mysql_password -e "SHOW DATABASES;"
+    - name: Verify MySQL connection (optional)
+      run: |
+        sudo apt-get update && sudo apt-get install -y mysql-client
+        mysql -h 127.0.0.1 -P 3306 -u root -p mysql_password -e "SHOW DATABASES;"
     
     - name: Build with Maven
       run: mvn clean install
